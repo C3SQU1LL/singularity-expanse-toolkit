@@ -1,0 +1,34 @@
+name: Import Solar to Notion
+
+on:
+  workflow_dispatch:
+    inputs:
+      solar_file:
+        description: "Solar file path"
+        required: true
+        default: "1782483575-system.solar"
+      dry_run:
+        description: "true = preview only, false = import to Notion"
+        required: true
+        default: "true"
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependency
+        run: pip install requests
+
+      - name: Run importer
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        run: python import_to_notion.py "${{ github.event.inputs.solar_file }}" --dry-run "${{ github.event.inputs.dry_run }}"
