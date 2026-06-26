@@ -1,18 +1,8 @@
-# The Singularity Expanse Toolkit - GitHub Pages Edition
+Put `.solar` files here when you want GitHub Actions to import them into Notion.
 
-This version needs no Python or app installation on your laptop.
+Recommended workflow:
 
-## What it does in the browser
-- Opens `.solar`, `.json`, or `.txt` generator files
-- Previews star, planet, and moon records
-- Exports CSV files for Notion import
-
-## Important
-A pure GitHub Pages website cannot safely perform direct Notion API imports. For automatic Notion import without installing anything, use the included GitHub Actions workflow. GitHub runs the Python importer online.
-
-## Setup summary
-1. Upload all files in this folder to your GitHub repository.
-2. Enable GitHub Pages for `main` / root.
-3. Add your Notion token as a GitHub secret named `NOTION_TOKEN`.
-4. Upload `.solar` files into the `imports` folder.
-5. Run the `Import .solar to Notion` workflow from the Actions tab.
+1. Upload one `.solar` file here.
+2. Run the GitHub Action in dry-run mode.
+3. If it looks correct, run the GitHub Action in import mode.
+4. Delete or archive the `.solar` file afterwards if you want to keep the repo tidy.

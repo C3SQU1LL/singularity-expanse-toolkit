@@ -1,0 +1,45 @@
+name: Import .solar to Notion
+
+on:
+  workflow_dispatch:
+    inputs:
+      solar_file:
+        description: "Path to .solar/.json/.txt file in the repo, e.g. imports/1782483575-system.solar"
+        required: true
+        default: "imports/1782483575-system.solar"
+      dry_run:
+        description: "true = preview only; false = write to Notion"
+        required: true
+        default: "true"
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Import system
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          STARS_DB_ID: "32ebaf348bba80ed8348cd81e5ef88fb"
+          PLANETS_DB_ID: "32ebaf348bba8076982afb7b42262ba4"
+          MOONS_DB_ID: "32fbaf348bba80a399c0f1fae5d193bc"
+          GALAXIES_DB_ID: "32ebaf348bba8012a6e0d9c6e3396a06"
+          BLACK_HOLES_DB_ID: "359baf348bba805cb536d05ed8223e47"
+          NEBULAE_DB_ID: "372baf348bba8079b1fec71a3a6b3739"
+          BELTS_DB_ID: "372baf348bba80ffb03dc88d1aa384ca"
+          SPECIES_DB_ID: "343baf348bba80cd9abde4a379e14598"
+          FACTIONS_DB_ID: "343baf348bba80589d0ee3739cb9774c"
+        run: |
+          python scripts/import_to_notion.py "${{ github.event.inputs.solar_file }}" --dry-run "${{ github.event.inputs.dry_run }}"
