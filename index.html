@@ -1,1 +1,67 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Singularity Expanse Toolkit</title><link rel="stylesheet" href="style.css"></head><body><main><h1>The Singularity Expanse Toolkit</h1><p class="note">Browser preview + CSV export. For automatic Notion import, use the included GitHub Actions workflow.</p><section class="card"><h2>1. Load a .solar / .json / .txt file</h2><input id="file" type="file" accept=".solar,.json,.txt,application/json,text/plain"><textarea id="paste" placeholder="Or paste copied generator text here"></textarea><button id="parse">Preview system</button></section><section id="summary" class="card hidden"></section><section id="tables" class="hidden"><div class="actions"><button id="downloadStars">Download Stars CSV</button><button id="downloadPlanets">Download Planets CSV</button><button id="downloadMoons">Download Moons CSV</button></div><div id="preview"></div></section></main><script src="app.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Singularity Expanse Toolkit</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="stars"></div>
+  <main class="shell">
+    <section class="hero card">
+      <div>
+        <p class="eyebrow">Universe Import Console</p>
+        <h1>The Singularity Expanse Toolkit</h1>
+        <p class="sub">Preview <strong>.solar</strong>, <strong>.json</strong>, or pasted generator text before importing into Notion.</p>
+      </div>
+      <div class="status-pill" id="statusPill">Ready</div>
+    </section>
+
+    <section class="grid two">
+      <div class="card upload-card" id="dropZone">
+        <h2>1. Load a system</h2>
+        <p>Drop a <code>.solar</code> file here, choose a file, or paste copied generator text below.</p>
+        <input id="fileInput" type="file" accept=".solar,.json,.txt,application/json,text/plain" />
+        <label for="fileInput" class="button primary">Choose file</label>
+        <textarea id="pasteInput" placeholder="Paste copied solar generator text here..."></textarea>
+        <div class="row">
+          <button id="parsePaste" class="button">Preview pasted text</button>
+          <button id="clearAll" class="button ghost">Clear</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>2. System summary</h2>
+        <div class="summary-grid">
+          <div><span id="starCount">0</span><label>Stars</label></div>
+          <div><span id="planetCount">0</span><label>Planets</label></div>
+          <div><span id="moonCount">0</span><label>Moons</label></div>
+          <div><span id="lifeCount">0</span><label>Life worlds</label></div>
+        </div>
+        <div class="actions">
+          <button id="downloadReport" class="button" disabled>Download report</button>
+          <button id="downloadCsv" class="button" disabled>Export CSV pack</button>
+        </div>
+        <p class="note">This web version does not send your Notion token anywhere. Direct Notion import will be added later using GitHub Actions or a secure backend.</p>
+      </div>
+    </section>
+
+    <section class="card hidden" id="previewCard">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Preview</p>
+          <h2 id="systemTitle">No system loaded</h2>
+        </div>
+        <div id="habitabilityBadge" class="badge">Unrated</div>
+      </div>
+      <div id="starPanel" class="star-panel"></div>
+      <h3>Planets</h3>
+      <div id="planetList" class="planet-list"></div>
+      <h3>Import log</h3>
+      <pre id="logBox"></pre>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
